@@ -1,0 +1,6 @@
+framework module Pods_JobReadness {
+  umbrella header "Pods-JobReadness-umbrella.h"
+
+  export *
+  module * { export * }
+}
