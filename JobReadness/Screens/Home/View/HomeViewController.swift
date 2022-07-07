@@ -13,7 +13,7 @@ final class HomeViewController: UIViewController {
     
     private let homeView = HomeView()
     
-    private lazy var presenter = HomePresenter(delegate: self)
+    private lazy var viewModel = HomeViewModel(delegate: self)
     
     private var itemFilter = String()
     
@@ -37,7 +37,7 @@ final class HomeViewController: UIViewController {
 
 extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return presenter.getNumberOfRows()
+        return viewModel.getNumberOfRows()
         
     }
     
@@ -45,7 +45,7 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
         let cell = tableView.dequeueReusableCell(withIdentifier: SearchListTableViewCell.identifier,
                                                  for: indexPath) as! SearchListTableViewCell
         
-        cell.setupCell(product: (presenter.highlightContent[indexPath.row]))
+        cell.setupCell(product: (viewModel.highlightContent[indexPath.row]))
         
         
         return cell
@@ -55,7 +55,7 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
         tableView.deselectRow(at: indexPath, animated: true)
-        let product = presenter.highlightContent[indexPath.row]
+        let product = viewModel.highlightContent[indexPath.row]
         let detailsVC = DetailsViewController(product: product)
         navigationController?.pushViewController(detailsVC, animated: true)
         
@@ -63,10 +63,10 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
     
 }
 
-extension HomeViewController: HomePresenterDelegate, HomeViewDelegate {
+extension HomeViewController: HomeViewModelDelegate, HomeViewDelegate {
     func willLoadTable() {
         homeView.tableView.reloadData()
-        dump(presenter.highlightContent)
+        dump(viewModel.highlightContent)
     }
     
     func handleTapped() {
@@ -78,7 +78,7 @@ extension HomeViewController: HomePresenterDelegate, HomeViewDelegate {
 extension HomeViewController: UISearchBarDelegate {
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
         self.itemFilter = searchBar.text ?? ""
-        self.presenter.fetchByCategory(category: itemFilter)
+        self.viewModel.fetchByCategory(category: itemFilter)
         print(itemFilter)
     }
     

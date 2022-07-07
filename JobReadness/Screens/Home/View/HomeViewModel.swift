@@ -7,13 +7,13 @@
 
 import Foundation
 
-protocol HomePresenterDelegate: AnyObject {
+protocol HomeViewModelDelegate: AnyObject {
     func willLoadTable()
 }
 
-final class HomePresenter {
+final class HomeViewModel {
     
-    weak var delegate: HomePresenterDelegate?
+    weak var delegate: HomeViewModelDelegate?
     
     private let jobReadnessService = JobReadnessService()
     
@@ -22,7 +22,7 @@ final class HomePresenter {
     var highlightContent = [ItemFromCategory]()
     
     
-    init(delegate: HomePresenterDelegate) {
+    init(delegate: HomeViewModelDelegate) {
         self.delegate = delegate
     }
     
